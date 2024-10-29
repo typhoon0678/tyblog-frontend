@@ -16,6 +16,8 @@ export const signup = async (email: string, password: string) =>
         password: password,
     });
 
-
 export const checkToken = async () =>
     await axiosApi.get('/member/token');
+
+export const getUsername = async () =>
+    await axiosApi.get('/member/username');
