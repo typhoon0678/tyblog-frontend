@@ -18,8 +18,9 @@ function SignupPage() {
                 alert("회원가입 되었습니다.")
                 navigate("/login");
             })
-            .catch(() => {
-                alert("이미 회원가입된 이메일입니다.");
+            .catch((err) => {
+                console.log(err.response.data);
+                alert(err.response.data.message);
             });
     }
 
