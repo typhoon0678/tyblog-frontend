@@ -17,7 +17,7 @@ function Header() {
             </button>
             {loginState.isLogin
                 ? <div className="">
-                    <button className="rounded-lg bg-indigo-600 text text-white px-4 py-2 mr-6"
+                    <button className="rounded-lg bg-indigo-600 text text-white px-4 py-1.5 mr-6"
                             onClick={() => {
                                 getUsername()
                                     .then((res) => navigate(`/blog/${res.data.username}`))
@@ -41,7 +41,7 @@ function Header() {
                             onClick={() => navigate("/login")}>
                         로그인
                     </button>
-                    <button className="rounded-lg bg-indigo-600 text text-white px-4 py-2"
+                    <button className="rounded-lg bg-indigo-600 text text-white px-4 py-1.5"
                             onClick={() => navigate("/signup")}>
                         회원가입
                     </button>

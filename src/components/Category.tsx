@@ -1,7 +1,12 @@
-function Category() {
+function Category({onClick, category, selectCategory}: {
+    onClick: () => void,
+    category: string,
+    selectCategory: string
+}) {
     return (
-        <button className="px-4 py-2 m-2 bg-indigo-600 text-white rounded-lg">
-            Category
+        <button className={`${selectCategory === category ? "bg-indigo-600 text-white" : ""} px-4 py-1.5 m-2 rounded-lg`}
+                onClick={onClick}>
+            {category}
         </button>
     );
 }

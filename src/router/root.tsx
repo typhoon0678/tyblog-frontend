@@ -1,7 +1,7 @@
 import {createBrowserRouter} from "react-router-dom";
 import {Suspense} from "react";
 import Loading from "../components/Loading.tsx";
-import {Login, Main, MyBlog, Signup} from "./pages.tsx";
+import {Login, Main, MyBlog, Post, Signup} from "./pages.tsx";
 
 const root = createBrowserRouter([
     {
@@ -19,6 +19,10 @@ const root = createBrowserRouter([
     {
         path: '/blog/:username',
         element: <Suspense fallback={Loading}><MyBlog/></Suspense>
+    },
+    {
+        path: '/blog/:username/:id',
+        element: <Suspense fallback={Loading}><Post/></Suspense>
     },
 ])
 
