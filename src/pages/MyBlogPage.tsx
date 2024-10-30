@@ -4,18 +4,29 @@ import PostCard from "../components/PostCard.tsx";
 import Category from "../components/Category.tsx";
 import {useEffect, useState} from "react";
 import {getCategories} from "../api/category.tsx";
-import {CategoryResponse} from "../api/types/postType.tsx";
+import {CategoryResponse, Post} from "../api/types/postType.tsx";
+import {getMemberPosts} from "../api/post.tsx";
 
 function MyBlogPage() {
 
     const {username} = useParams();
 
+    const [pageInfo, setPageInfo] = useState({
+        page: 0,
+        size: 12,
+    })
     const [categories, setCategories] = useState<CategoryResponse[]>([]);
     const [selectCategory, setSelectCategory] = useState<number[]>([0]);
+    const [posts, setPosts] = useState<Post[]>([]);
 
     useEffect(() => {
         getCategories()
             .then((res) => setCategories(res.data))
+    }, []);
+
+    useEffect(() => {
+        getMemberPosts(username || "", pageInfo.page, pageInfo.size)
+            .then((res) => setPosts([...posts, ...res.data.content]))
     }, []);
 
     const selectAll: CategoryResponse = {
@@ -42,12 +53,9 @@ function MyBlogPage() {
                 ))}
             </div>
             <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
-                <PostCard/>
-                <PostCard/>
-                <PostCard/>
-                <PostCard/>
-                <PostCard/>
-                <PostCard/>
+                {posts.map((post) => (
+                    <PostCard key={post.id} post={post}/>
+                ))}
             </div>
         </BasicLayout>
     );

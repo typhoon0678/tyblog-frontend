@@ -1,8 +1,11 @@
 import {axiosApi} from "../utils/axiosApi.tsx";
 import {WritePostType} from "./types/postType.tsx";
 
-export const getRecentPosts = async () =>
-    await axiosApi.get('/post/recent');
+export const getRecentPosts = async (page: number, size: number) =>
+    await axiosApi.get(`/post/recent?page=${page}&size=${size}`);
+
+export const getMemberPosts = async (username: string, page: number, size: number) =>
+    await axiosApi.get(`/post/${username}?page=${page}&size=${size}`);
 
 export const uploadImage = async (blobInfo: any) => {
     const formData = new FormData();

@@ -1,26 +1,29 @@
 import {IoIosArrowForward} from "react-icons/io";
 import {useNavigate} from "react-router-dom";
 import PostCategoryDiv from "./PostCategoryDiv.tsx";
+import {Post} from "../api/types/postType.tsx";
+import DOMPurify from "dompurify";
+import {removeImgTags} from "../utils/htmlUtil.tsx";
 
-function PostCard() {
+function PostCard({post}: { post: Post }) {
 
     const navigate = useNavigate();
+
+    const safeContentWithoutImg = removeImgTags(DOMPurify.sanitize(post.content));
 
     return (
         <div className="mx-auto border border-gray-300 rounded-lg h-96 w-64">
             <img src={"https://upload.wikimedia.org/wikipedia/commons/8/85/Logo-Test.png"} alt="postImage"
-            className="h-40 object-contain border-b"/>
+                 className="h-40 object-contain border-b"/>
             <div className="h-[calc(100%-192px)] m-4 flex flex-col justify-around">
                 <div className="flex gap-x-2 overflow-hidden">
-                    <PostCategoryDiv categories={["Spring"]}/>
-                    <PostCategoryDiv categories={["React"]}/>
+                    <PostCategoryDiv categories={post.categories}/>
                 </div>
                 <div className="font-semibold h-12 line-clamp-2">
-                    제목
+                    {post.title}
                 </div>
-                <div className="text-gray-500 h-12 line-clamp-2">
-                    설명
-                </div>
+                <div className="text-gray-500 h-12 line-clamp-2"
+                     dangerouslySetInnerHTML={{__html: safeContentWithoutImg}}/>
                 <div>
                     <button className="flex justify-start items-center border border-gray-700 rounded-sm p-1"
                             onClick={() => navigate("/blog/username/id")}>
