@@ -1,6 +1,5 @@
 import {axiosApi} from "../utils/axiosApi.tsx";
 
-
 export const login = async (email: string, password: string) =>
     await axiosApi.post('/member/login', {
         email: email,

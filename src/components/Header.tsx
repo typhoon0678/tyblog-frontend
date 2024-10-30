@@ -2,6 +2,8 @@ import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {RootState} from "../store.tsx";
 import {getUsername, logout} from "../api/login.tsx";
+import MainSmallFillButton from "../pages/MainSmallFillButton.tsx";
+import MainSmallButton from "../pages/MainSmallButton.tsx";
 
 function Header() {
 
@@ -16,19 +18,19 @@ function Header() {
                 TYBLOG
             </button>
             {loginState.isLogin
-                ? <div className="">
-                    <button className="rounded-lg bg-indigo-600 text text-white px-4 py-1.5 mr-6"
-                            onClick={() => {
-                                getUsername()
-                                    .then((res) => navigate(`/blog/${res.data.username}`))
-                                    .catch((err) => {
-                                        console.log(err);
-                                        alert("문제가 발생했습니다. 다시 시도해주세요.")
-                                    })
-                            }}>
-                        내 블로그
-                    </button>
-                    <button className="px-2 py-1 font-semibold"
+                ? <div className="flex">
+                    <MainSmallFillButton text="내 블로그" onClick={() => {
+                        getUsername()
+                            .then((res) => navigate(`/blog/${res.data.username}`))
+                            .catch((err) => {
+                                console.log(err);
+                                alert("문제가 발생했습니다. 다시 시도해주세요.")
+                            })
+                    }}/>
+                    <div className="mr-6"/>
+                    <MainSmallButton text="글 작성하기" onClick={() => navigate("/write")}/>
+                    <div className="mr-6"/>
+                    <button className="px-2 py-1 font-normal"
                             onClick={() =>
                                 logout()
                                     .then(() => navigate(0))
@@ -41,13 +43,9 @@ function Header() {
                             onClick={() => navigate("/login")}>
                         로그인
                     </button>
-                    <button className="rounded-lg bg-indigo-600 text text-white px-4 py-1.5"
-                            onClick={() => navigate("/signup")}>
-                        회원가입
-                    </button>
+                    <MainSmallFillButton text="회원가입" onClick={() => navigate("/signup")}/>
                 </div>
             }
-
         </div>
     );
 }
