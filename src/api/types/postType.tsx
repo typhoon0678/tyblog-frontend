@@ -1,5 +1,5 @@
 export interface WritePostType {
-    categories: number[];
+    categoryIds: number[];
     title: string;
     content: string;
 }

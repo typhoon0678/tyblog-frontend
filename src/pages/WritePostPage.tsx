@@ -5,11 +5,15 @@ import {getCategories} from "../api/category.tsx";
 import {CategoryResponse, WritePostType} from "../api/types/postType.tsx";
 import Category from "../components/Category.tsx";
 import MainSmallFillButton from "./MainSmallFillButton.tsx";
+import {createPost, uploadImage} from "../api/post.tsx";
+import {useNavigate} from "react-router-dom";
 
 function WritePostPage() {
 
+    const navigate = useNavigate();
+
     const [post, setPost] = useState<WritePostType>({
-        categories: [],
+        categoryIds: [],
         title: "",
         content: "",
     });
@@ -23,11 +27,19 @@ function WritePostPage() {
     }, []);
 
     const handleCategory = (id: number) => {
-        if (!post.categories.includes(id)) {
-            setPost({...post, categories: [...post.categories, id]})
+        if (!post.categoryIds.includes(id)) {
+            setPost({...post, categoryIds: [...post.categoryIds, id]})
         } else {
-            setPost({...post, categories: post.categories.filter(existId => existId !== id)})
+            setPost({...post, categoryIds: post.categoryIds.filter(existId => existId !== id)})
         }
+    }
+
+    const handleSubmit = () => {
+        createPost(post)
+            .then(() => {
+                alert("작성되었습니다.");
+                navigate("/");
+            })
     }
 
     return (
@@ -44,7 +56,7 @@ function WritePostPage() {
                     <Category key={category.id}
                               onClick={() => handleCategory(category.id)}
                               category={category}
-                              selectCategoryId={post.categories}/>
+                              selectCategoryId={post.categoryIds}/>
                 )}
             </div>
             <div className="h-[calc(100vh-240px)]">
@@ -59,13 +71,17 @@ function WritePostPage() {
                         toolbar: 'undo redo | h1 h2 h3 h4 | bold italic underline strikethrough | align lineheight | checklist numlist bullist indent outdent | blockquote link code',
                         placeholder: "내용을 작성해주세요.",
                         file_picker_types: "image",
+                        images_upload_handler: async (blobInfo) => {
+                            const res = await uploadImage(blobInfo);
+                            return res.data.url;
+                        }
                     }}
                     value={post.content}
                     onEditorChange={(content) => setPost({...post, content: content})}
                 />
             </div>
             <div className="flex justify-end items-center w-full mt-4">
-                <MainSmallFillButton text="게시하기" onClick={() => {}}/>
+                <MainSmallFillButton text="게시하기" onClick={handleSubmit}/>
             </div>
         </BasicLayout>
     );
