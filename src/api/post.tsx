@@ -4,8 +4,8 @@ import {WritePostType} from "./types/postType.tsx";
 export const getRecentPosts = async (page: number, size: number) =>
     await axiosApi.get(`/post/recent?page=${page}&size=${size}`);
 
-export const getMemberPosts = async (username: string, page: number, size: number) =>
-    await axiosApi.get(`/post/${username}?page=${page}&size=${size}`);
+export const getMemberPosts = async (username: string, categoryId: number, page: number, size: number) =>
+    await axiosApi.get(`/post/${username}?categoryId=${categoryId}&page=${page}&size=${size}`);
 
 export const uploadImage = async (blobInfo: any) => {
     const formData = new FormData();

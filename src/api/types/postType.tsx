@@ -15,6 +15,6 @@ export interface Post {
     content: string;
     author: string;
     categories: string[],
-    created_at: Date;
-    updated_at: Date;
+    createdAt: Date;
+    updatedAt: Date;
 }

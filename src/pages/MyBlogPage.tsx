@@ -2,22 +2,29 @@ import {useParams} from "react-router-dom";
 import BasicLayout from "../components/BasicLayout.tsx";
 import PostCard from "../components/PostCard.tsx";
 import Category from "../components/Category.tsx";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {getCategories} from "../api/category.tsx";
 import {CategoryResponse, Post} from "../api/types/postType.tsx";
 import {getMemberPosts} from "../api/post.tsx";
+import useInfiniteScroll from "../utils/useInfiniteScroll.tsx";
 
 function MyBlogPage() {
 
     const {username} = useParams();
 
-    const [pageInfo, setPageInfo] = useState({
-        page: 0,
-        size: 12,
-    })
     const [categories, setCategories] = useState<CategoryResponse[]>([]);
     const [selectCategory, setSelectCategory] = useState<number[]>([0]);
     const [posts, setPosts] = useState<Post[]>([]);
+    const [trigger, setTrigger] = useState<boolean>(true);
+
+    const target = useRef<HTMLDivElement>(null);
+    const {page, setPage} = useInfiniteScroll({
+        target: target,
+        targetArray: posts,
+        threshold: 0.5,
+        endPoint: 4,
+    });
+    const pageSize = 12;
 
     useEffect(() => {
         getCategories()
@@ -25,9 +32,15 @@ function MyBlogPage() {
     }, []);
 
     useEffect(() => {
-        getMemberPosts(username || "", pageInfo.page, pageInfo.size)
+        getMemberPosts(username || "", selectCategory[0], page, pageSize)
             .then((res) => setPosts([...posts, ...res.data.content]))
-    }, []);
+    }, [page, trigger]);
+
+    useEffect(() => {
+        setPosts([]);
+        setPage(0);
+        setTrigger(prev => !prev);
+    }, [selectCategory]);
 
     const selectAll: CategoryResponse = {
         id: 0,
@@ -52,7 +65,8 @@ function MyBlogPage() {
                               selectCategoryId={selectCategory}/>
                 ))}
             </div>
-            <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
+            <div ref={target}
+                 className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4">
                 {posts.map((post) => (
                     <PostCard key={post.id} post={post}/>
                 ))}
