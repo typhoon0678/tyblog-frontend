@@ -3,7 +3,7 @@ import BasicLayout from "../components/BasicLayout.tsx";
 import PostCard from "../components/PostCard.tsx";
 import Category from "../components/Category.tsx";
 import {useEffect, useRef, useState} from "react";
-import {getCategories} from "../api/category.tsx";
+import {getCategoriesByUsername} from "../api/category.tsx";
 import {CategoryResponse, Post} from "../api/types/postType.tsx";
 import {getMemberPosts} from "../api/post.tsx";
 import useInfiniteScroll from "../utils/useInfiniteScroll.tsx";
@@ -27,7 +27,7 @@ function MyBlogPage() {
     const pageSize = 12;
 
     useEffect(() => {
-        getCategories()
+        getCategoriesByUsername(username || "")
             .then((res) => setCategories(res.data))
     }, []);
 
