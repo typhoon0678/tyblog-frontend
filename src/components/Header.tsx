@@ -2,8 +2,8 @@ import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {RootState} from "../store.tsx";
 import {getUsername, logout} from "../api/login.tsx";
-import MainSmallFillButton from "../pages/MainSmallFillButton.tsx";
-import MainSmallButton from "../pages/MainSmallButton.tsx";
+import MainSmallFillButton from "./MainSmallFillButton.tsx";
+import MainSmallButton from "./MainSmallButton.tsx";
 
 function Header() {
 

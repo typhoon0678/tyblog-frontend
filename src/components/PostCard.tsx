@@ -17,7 +17,7 @@ function PostCard({post}: { post: Post }) {
     return (
         <div className="mx-auto border border-gray-300 rounded-lg h-96 w-64 hover:cursor-pointer hover:shadow-lg
         transition transform ease-out delay-100 duration-300 hover:-translate-y-2"
-             onClick={() => navigate("/blog/username/id")}>
+             onClick={() => navigate(`/blog/username/${post.id}`)}>
             {(imgSrc)
                 ? <img src={imgSrc} alt="postImage"
                        className="h-40 w-full object-cover border-b"/>

@@ -4,9 +4,9 @@ import {useEffect, useState} from "react";
 import {getCategories} from "../api/category.tsx";
 import {CategoryResponse, WritePostType} from "../api/types/postType.tsx";
 import Category from "../components/Category.tsx";
-import MainSmallFillButton from "./MainSmallFillButton.tsx";
+import MainSmallFillButton from "../components/MainSmallFillButton.tsx";
 import {createPost, uploadImage} from "../api/post.tsx";
-import {useNavigate} from "react-router-dom";
+import {useBlocker, useNavigate} from "react-router-dom";
 
 function WritePostPage() {
 
@@ -17,6 +17,29 @@ function WritePostPage() {
         title: "",
         content: "",
     });
+
+    const [exitPage, setExitPage] = useState(false);
+
+    // 뒤로가기 방지
+    useBlocker(() => {
+            return (!!post.title || !!post.content) &&
+                exitPage &&
+                !confirm("페이지를 이동하시겠습니까?\n\n작성중인 내용이 저장되지 않습니다.");
+        }
+    );
+
+    // 새로고침 방지
+    useEffect(() => {
+        const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+            event.preventDefault();
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
 
     const [categories, setCategories] = useState<CategoryResponse[]>([]);
 
@@ -38,6 +61,7 @@ function WritePostPage() {
         createPost(post)
             .then(() => {
                 alert("작성되었습니다.");
+                setExitPage(true);
                 navigate("/");
             })
     }

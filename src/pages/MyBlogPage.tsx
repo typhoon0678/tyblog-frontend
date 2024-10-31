@@ -51,7 +51,7 @@ function MyBlogPage() {
         <BasicLayout>
             <div className="bg-gray-50 flex flex-col justify-around items-center py-8">
                 <h1 className="font-bold text-3xl text-center">{username}'s Blog</h1>
-                <div className="mt-6 text-center text-gray-500 font-normal">description</div>
+                {/*<div className="mt-6 text-center text-gray-500 font-normal">description</div>*/}
             </div>
             <div className="flex flex-wrap justify-center my-8">
                 <Category key={selectAll.id}
