@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import BasicLayout from "../components/BasicLayout.tsx";
 import {useNavigate} from "react-router-dom";
-import {login} from "../api/login.tsx";
+import {googleLogin, kakaoLogin, login, naverLogin} from "../api/login.tsx";
 
 function LoginPage() {
 
@@ -58,6 +58,21 @@ function LoginPage() {
                             className="rounded font-normal mt-4 py-2"
                             onClick={() => navigate("/signup")}>
                             회원가입
+                        </button>
+                    </div>
+                    <hr/>
+                    <div className="flex justify-around">
+                        <button onClick={kakaoLogin}>
+                            <img className="h-10 w-10"
+                                 src="../../assets/icon/kakao-circle.svg" alt="kakao Login"/>
+                        </button>
+                        <button onClick={naverLogin}>
+                            <img className="h-10 w-10"
+                                 src="../../assets/icon/naver-circle.svg" alt="naver Login"/>
+                        </button>
+                        <button onClick={googleLogin}>
+                            <img className="h-10 w-10"
+                                 src="../../assets/icon/google-circle.svg" alt="google Login"/>
                         </button>
                     </div>
                 </div>
