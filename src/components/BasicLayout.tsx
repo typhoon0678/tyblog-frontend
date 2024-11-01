@@ -25,6 +25,7 @@ function BasicLayout({children}: { children: ReactNode }) {
             <div className="max-w-screen-lg 2xl:max-w-screen-xl mx-auto">
                 <Header/>
                 {children}
+                <div className="h-16"/>
             </div>
         </main>
     );
