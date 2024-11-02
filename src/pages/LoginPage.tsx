@@ -2,6 +2,9 @@ import {useEffect, useState} from 'react';
 import BasicLayout from "../components/BasicLayout.tsx";
 import {useNavigate} from "react-router-dom";
 import {googleLogin, kakaoLogin, login, naverLogin} from "../api/login.tsx";
+import kakaoIcon from "../../assets/icon/kakao-circle.svg";
+import naverIcon from "../../assets/icon/naver-circle.svg";
+import googleIcon from "../../assets/icon/google-circle.svg";
 
 function LoginPage() {
 
@@ -64,15 +67,15 @@ function LoginPage() {
                     <div className="flex justify-around">
                         <button onClick={kakaoLogin}>
                             <img className="h-10 w-10"
-                                 src="../../assets/icon/kakao-circle.svg" alt="kakao Login"/>
+                                 src={kakaoIcon} alt="kakao Login"/>
                         </button>
                         <button onClick={naverLogin}>
                             <img className="h-10 w-10"
-                                 src="../../assets/icon/naver-circle.svg" alt="naver Login"/>
+                                 src={naverIcon} alt="naver Login"/>
                         </button>
                         <button onClick={googleLogin}>
                             <img className="h-10 w-10"
-                                 src="../../assets/icon/google-circle.svg" alt="google Login"/>
+                                 src={googleIcon} alt="google Login"/>
                         </button>
                     </div>
                 </div>
